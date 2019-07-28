@@ -24,14 +24,14 @@ enum planck_layers {
   _QWERTY,
   _LOWER,
   _RAISE,
-  _PLOVER,
+  _MIDI,
   _ADJUST
 };
 
 enum planck_keycodes {
   BNJMNWL = SAFE_RANGE,
   QWERTY = SAFE_RANGE,
-  PLOVER,
+  MIDI,
   BACKLIT,
   EXT_PLV
 };
@@ -113,22 +113,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
 ),
 
-/* Plover layer (http://opensteno.org)
+/* MIDI
  * ,-----------------------------------------------------------------------------------.
- * |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |
+ * | Exit | Ch+  | Vel1 | Vel2 | Vel3 | Vel4 | Vel5 | Vel6 | Vel7 | Vel8 | Vel9 | Tns0 |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |   S  |   T  |   P  |   H  |   *  |   *  |   F  |   P  |   L  |   T  |   D  |
+ * |      |  C#  |  D#  |      |  F#  |  G#  |  A#  |      |  C#  |  D#  |      |  F#  |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |   S  |   K  |   W  |   R  |   *  |   *  |   R  |   B  |   G  |   S  |   Z  |
+ * |  B   |  C   |  D   |  E   |  F   |  G   |  A   |  B   |  C   |  D   |   E  |   F  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Exit |      |      |   A  |   O  |             |   E  |   U  |      |      |      |
+ * | Mod  | Oct- | Oct+ |      | Low  | Sust | Sust | Rise | Mod- | Mod+ | Tns- | Tns+ |
  * `-----------------------------------------------------------------------------------'
  */
-[_PLOVER] = LAYOUT_planck_grid(
-    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1   ,
-    XXXXXXX, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,
-    XXXXXXX, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-    EXT_PLV, XXXXXXX, XXXXXXX, KC_C,    KC_V,    XXXXXXX, XXXXXXX, KC_N,    KC_M,    XXXXXXX, XXXXXXX, XXXXXXX
+[_MIDI] = LAYOUT_planck_grid(
+    TG(_MIDI), MI_CHU,  MI_VEL_1, MI_VEL_2, MI_VEL_3, MI_VEL_4, MI_VEL_5, MI_VEL_6, MI_VEL_7, MI_VEL_8, MI_VEL_9, MI_TRNS_0,
+    _______,   MI_Cs_2, MI_Ds_2,  _______,  MI_Fs_2,  MI_Gs_2,  MI_As_2,  _______,  MI_Cs_3,  MI_Ds_3,  _______,  MI_Fs_3,
+    MI_B_1,    MI_C_2,  MI_D_2,   MI_E_2,   MI_F_2,   MI_G_2,   MI_A_2,   MI_B_2,   MI_C_3,   MI_D_3,   MI_E_3,   MI_F_3,
+    MI_MOD,    MI_OCTD, MI_OCTU,  _______,  LOWER,    MI_SUS,   MI_SUS,   RAISE,    MI_MODSD, MI_MODSU, MI_TRNSD, MI_TRNSU
 ),
 
 /* Adjust (Lower + Raise)
@@ -144,7 +144,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_ADJUST] = LAYOUT_planck_grid(
     RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,    KC_F9,   KC_F10, KC_DEL ,
-    DEBUG,   KC_F11,  KC_F12,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, BNJMNWL, QWERTY,   _______, PLOVER,  RGB_TOG,
+    DEBUG,   KC_F11,  KC_F12,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, BNJMNWL, QWERTY,   _______, MIDI,  RGB_TOG,
     MU_MOD,  MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, RGB_SAD, RGB_HUD, RGB_MOD,
     _______, _______, _______, _______, _______, _______, _______, _______, RGB_VAD,  RGB_VAI, RGB_SAI, RGB_HUI
 )
@@ -186,7 +186,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case PLOVER:
+    case MIDI:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           stop_all_notes();
@@ -195,7 +195,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_RAISE);
         layer_off(_LOWER);
         layer_off(_ADJUST);
-        layer_on(_PLOVER);
+        layer_on(_MIDI);
         if (!eeconfig_is_enabled()) {
             eeconfig_init();
         }
@@ -210,7 +210,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(plover_gb_song);
         #endif
-        layer_off(_PLOVER);
+        layer_off(_MIDI);
       }
       return false;
       break;
