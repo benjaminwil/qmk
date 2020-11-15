@@ -125,10 +125,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_MIDI] = LAYOUT_planck_grid(
-    TG(_MIDI), MI_CHU,  MI_VEL_1, MI_VEL_2, MI_VEL_3, MI_VEL_4, MI_VEL_5, MI_VEL_6, MI_VEL_7, MI_VEL_8, MI_VEL_9, MI_VEL_0,
-    MI_C_2,    MI_Cs_2, MI_Ds_2,  MI_F_2,   MI_Fs_2,  MI_Gs_2,  MI_As_2,  MI_C_3,  MI_Cs_3,   MI_Ds_3,  MI_F_3,   MI_Fs_3,
-    MI_B_1,    MI_C_2,  MI_D_2,   MI_E_2,   MI_F_2,   MI_G_2,   MI_A_2,   MI_B_2,   MI_C_3,   MI_D_3,   MI_E_3,   MI_F_3,
-    MI_MOD,    MI_OCTD, MI_OCTU,  MI_MODSD, MI_MODSU, MI_SUS,   MI_SUS,   MI_OCTD,  MI_OCTU,  MI_TRNSD, MI_TRNSU, MI_TRNS_0
+    TG(_MIDI), MI_CHU,       MI_VEL_1,      MI_VEL_2, MI_VEL_3, MI_VEL_4, MI_VEL_5, MI_VEL_6, MI_VEL_7, MI_VEL_8, MI_VEL_9, _______,
+    MI_C_2,    MI_Cs_2,      MI_Ds_2,       MI_F_2,   MI_Fs_2,  MI_Gs_2,  MI_As_2,  MI_C_3,   MI_Cs_3,  MI_Ds_3,  MI_F_3,   MI_Fs_3,
+    MI_B_1,    MI_C_2,       MI_D_2,        MI_E_2,   MI_F_2,   MI_G_2,   MI_A_2,   MI_B_2,   MI_C_3,   MI_D_3,   MI_E_3,   MI_F_3,
+    MI_MOD,    OSL(MI_OCTD), OSL(MI_OCTU),  MI_MODSD, MI_MODSU, MI_SUS,   MI_SUS,   MI_OCTD,  MI_OCTU,  MI_TRNSD, MI_TRNSU, MI_TRNS_0
 ),
 
 /* Adjust (Lower + Raise)
